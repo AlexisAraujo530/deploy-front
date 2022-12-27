@@ -4,13 +4,12 @@ const initialState = {
   allComplexs: [],
   complexs: [],
   detail: {},
-  currentUser: { 
-    isLogged:false,
-    isOwner: true 
-  },
+  currentUser: null,
   sports:[],
   services:[],
-  favorites:[]
+  favorites:[],
+  allUsers:[],
+  users:[]
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -18,8 +17,8 @@ const rootReducer = (state = initialState, action) => {
     case actions.GET_ALL_COMPLEX:
       return {
         ...state,
-        allComplexs: action.payload,
-        complexs: action.payload,
+        allComplexs: action.payload.api,
+        complexs: action.payload.borradoLogico,
       };
     case actions.GET_COMPLEX_DETAIL:
       return {
@@ -65,6 +64,27 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         favorites: [...state.favorites ,action.payload],
+      };
+    case actions.SET_CURRENT_USER:
+      return {
+        ...state,
+        currentUser: action.payload,
+      };
+    case actions.LOGOUT_CURRENT_USER:
+      return {
+        ...state,
+        currentUser: action.payload,
+      };
+    case actions.CHECK_USER_SESSION:
+      return {
+        ...state,
+        currentUser: action.payload,
+      };
+    case actions.GET_ALL_USER:
+      return {
+        ...state,
+        allUsers: action.payload.api,
+        users:action.payload.borradoLogico
       };
     default:
       return state;

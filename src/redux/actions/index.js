@@ -1,16 +1,21 @@
 import * as actions from '../actionTypes'
 import axios from 'axios'
 import {sports,services} from '../../data/complexsExample'
-
+import clientAxios from "../../config/clientAxios";
+// import {complexs} from '../../data/complexsExample'
 
 
 //CRUD COMPLEX
 export const getAllComplex = () => async(dispatch)=>{
     try {
-        const api = await axios.get("https://pf-henry-backend-production.up.railway.app/")
+        const api = await axios.get("http://localhost:3001/complejo/all")
+        const borradoLogico = api.data.filter(e => e.status = true)
         dispatch({
             type: actions.GET_ALL_COMPLEX,
-            payload: api.data
+            payload: {
+              borradoLogico,
+              api: api.data
+            }
         })
   
     } catch (error) {
@@ -22,7 +27,7 @@ export const getAllComplex = () => async(dispatch)=>{
 export const getComplexDetails = (id) => async(dispatch) =>{
   try{
     
-    const find = await axios.get(`https://pf-henry-backend-production.up.railway.app/complejo/${id}`)
+    const find = await axios.get(`http://localhost:3001/complejo/${id}`)
     
     dispatch({
       type: actions.GET_COMPLEX_DETAIL,
@@ -43,7 +48,7 @@ export const createComplex = ({logo,cuit,complexName,complexAddress})=>{
   }
   try{
     
-    const create = axios.post("https://pf-henry-backend-production.up.railway.app/complejo/create",complex)
+    const create = axios.post("http://localhost:3001/complejo/create",complex)
     
     return {create, msg:"complex created"}
   }
@@ -63,7 +68,7 @@ export const updateComplex = (id,{logo,cuit,complexName,complexAddress})=>{
   }
   try{
     
-    const create = axios.post(`https://pf-henry-backend-production.up.railway.app/complejo/update${id}`,complex)
+    const create = axios.post(`http://localhost:3001/complejo/update/${id}`,complex)
     
     return {create, msg:"complex updated"}
   }
@@ -77,7 +82,7 @@ export const deleteComplex = (id)=>{
 
   try{
     
-    const create = axios.post(`https://pf-henry-backend-production.up.railway.app/complejo/delete/${id}`)
+    const create = axios.post(`http://localhost:3001/complejo/delete/${id}`)
     
     return {create, msg:"complex deleted"}
   }
@@ -92,10 +97,14 @@ export const deleteComplex = (id)=>{
 
 export const getAllUser = () => async(dispatch)=>{
   try {
-      const api = await axios.get("https://pf-henry-backend-production.up.railway.app/clients/all")
+      const api = await axios.get("http://localhost:3001/clients/all")
+      const borradoLogico = api.data.filter(e => e.status = true)
       dispatch({
           type: actions.GET_ALL_USER,
-          payload: api.data
+          payload: {
+            borradoLogico,
+            api: api.data
+          }
       })
 
   } catch (error) {
@@ -107,7 +116,7 @@ export const getAllUser = () => async(dispatch)=>{
 export const getUserDetails = (id) => async(dispatch) =>{
 try{
   
-  const find = await axios.get(`https://pf-henry-backend-production.up.railway.app/clients/${id}`)
+  const find = await axios.get(`http://localhost:3001/clients/${id}`)
   
   dispatch({
     type: actions.GET_USER_DETAIL,
@@ -128,7 +137,7 @@ export const createUser = ({fullname,password,email,phone})=>{
   }
   try{
     
-    const create = axios.get("https://pf-henry-backend-production.up.railway.app/clients/create",user)
+    const create = axios.get("http://localhost:3001/clients/create",user)
     
     return {create, msg:"user created"}
   }
@@ -148,7 +157,7 @@ export const updateUser = (id,{fullname,password,email,phone})=>{
   }
   try{
     
-    const create = axios.get(`https://pf-henry-backend-production.up.railway.app/clients/update/${id}`,user)
+    const create = axios.get(`http://localhost:3001/clients/update/${id}`,user)
     
     return {create, msg:"user updated"}
   }
@@ -162,7 +171,7 @@ export const deleteUser = (id)=>{
 
   try{
     
-    const create = axios.post(`https://pf-henry-backend-production.up.railway.app/clients/delete/${id}`)
+    const create = axios.post(`http://localhost:3001/clients/delete/${id}`)
     
     return {create, msg:"user deleted"}
   }
@@ -175,7 +184,7 @@ export const deleteUser = (id)=>{
 //CRUD COURT
 export const getAllCourt = () => async(dispatch)=>{
   try {
-      const api = await axios.get("https://pf-henry-backend-production.up.railway.app/court/all")
+      const api = await axios.get("http://localhost:3001/court/all")
       dispatch({
           type: actions.GET_ALL_COURT,
           payload: api.data
@@ -190,7 +199,7 @@ export const getAllCourt = () => async(dispatch)=>{
 export const getCourtDetails = (id) => async(dispatch) =>{
 try{
   
-  const find = await axios.get(`https://pf-henry-backend-production.up.railway.app/court/${id}`)
+  const find = await axios.get(`http://localhost:3001/court/${id}`)
   
   dispatch({
     type: actions.GET_COURT_DETAIL,
@@ -210,7 +219,7 @@ export const createCourt = ({numberCourt,description,typeCourt})=>{
   }
   try{
     
-    const create = axios.get("https://pf-henry-backend-production.up.railway.app/court/create",court)
+    const create = axios.get("http://localhost:3001/court/create",court)
     
     return {create, msg:"court created"}
   }
@@ -229,7 +238,7 @@ export const updateCourt = (id,{numberCourt,description,typeCourt})=>{
   }
   try{
     
-    const create = axios.get(`https://pf-henry-backend-production.up.railway.app/court/update/${id}`,court)
+    const create = axios.get(`http://localhost:3001/court/update/${id}`,court)
     
     return {create, msg:"court updated"}
   }
@@ -243,7 +252,7 @@ export const deleteCourt = (id)=>{
 
   try{
     
-    const create = axios.post(`https://pf-henry-backend-production.up.railway.app/court/delete/${id}`)
+    const create = axios.post(`http://localhost:3001/court/delete/${id}`)
     
     return {create, msg:"court deleted"}
   }
@@ -256,7 +265,7 @@ export const deleteCourt = (id)=>{
 //CRUD TURN
 export const getAllTurn= () => async(dispatch)=>{
   try {
-      const api = await axios.get("https://pf-henry-backend-production.up.railway.app/turn/all")
+      const api = await axios.get("http://localhost:3001/turn/all")
       dispatch({
           type: actions.GET_ALL_TURN,
           payload: api.data
@@ -271,7 +280,7 @@ export const getAllTurn= () => async(dispatch)=>{
 export const getTurnDetail = (id) => async(dispatch) =>{
 try{
   
-  const find = await axios.get(`https://pf-henry-backend-production.up.railway.app/turn/${id}`)
+  const find = await axios.get(`http://localhost:3001/turn/${id}`)
   
   dispatch({
     type: actions.GET_TURN_DETAIL,
@@ -287,7 +296,7 @@ export const createTurn = (clientID,courtID,{ date, time_start})=>{
   const turn = { date, time_start}
   try{
     
-    const create = axios.get(`https://pf-henry-backend-production.up.railway.app/turn/create/${clientID}/${courtID}`,turn)
+    const create = axios.get(`http://localhost:3001/turn/create/${clientID}/${courtID}`,turn)
     
     return {create, msg:"turn created"}
   }
@@ -302,7 +311,7 @@ export const updateTurn = (id,{ date, time_start})=>{
   const turn = { date, time_start}
   try{
     
-    const create = axios.get(`https://pf-henry-backend-production.up.railway.app/turn/update/${id}`,turn)
+    const create = axios.get(`http://localhost:3001/turn/update/${id}`,turn)
     
     return {create, msg:"turn updated"}
   }
@@ -316,7 +325,7 @@ export const deleteTurn = (id)=>{
 
   try{
     
-    const create = axios.post(`https://pf-henry-backend-production.up.railway.app/turn/delete/${id}`)
+    const create = axios.post(`http://localhost:3001/turn/delete/${id}`)
     
     return {create, msg:"turn deleted"}
   }
@@ -330,7 +339,7 @@ export const deleteTurn = (id)=>{
 //CRUD TYPECOUR
 export const getAllTypeCourt = () => async(dispatch)=>{
   try {
-      const api = await axios.get("https://pf-henry-backend-production.up.railway.app/typecourt/all")
+      const api = await axios.get("http://localhost:3001/typecourt/all")
       dispatch({
           type: actions.GET_ALL_TYPECOURT,
           payload: api.data
@@ -345,7 +354,7 @@ export const getAllTypeCourt = () => async(dispatch)=>{
 export const getTypeCourtDetails = (id) => async(dispatch) =>{
 try{
   
-  const find = await axios.get(`https://pf-henry-backend-production.up.railway.app/typecourt/${id}`)
+  const find = await axios.get(`http://localhost:3001/typecourt/${id}`)
   
   dispatch({
     type: actions.GET_TYPECOURT_DETAIL,
@@ -361,7 +370,7 @@ export const createTypeCourt = ({description,icon})=>{
   const typecourt = {description,icon}
   try{
     
-    const create = axios.get("https://pf-henry-backend-production.up.railway.app/typecourt/create",typecourt)
+    const create = axios.get("http://localhost:3001/typecourt/create",typecourt)
     
     return {create, msg:"typecourt created"}
   }
@@ -376,7 +385,7 @@ export const updateTypeCourt = (id,{description,icon})=>{
   const typecourt = {description,icon}
   try{
     
-    const create = axios.get(`https://pf-henry-backend-production.up.railway.app/typecourt/update/${id}`,typecourt)
+    const create = axios.get(`http://localhost:3001/typecourt/update/${id}`,typecourt)
     
     return {create, msg:"typecourt updated"}
   }
@@ -390,7 +399,7 @@ export const deleteTypeCourt = (id)=>{
 
   try{
     
-    const create = axios.post(`https://pf-henry-backend-production.up.railway.app/typecourt/delete/${id}`)
+    const create = axios.post(`http://localhost:3001/typecourt/delete/${id}`)
     
     return {create, msg:"typecourt deleted"}
   }
@@ -403,7 +412,7 @@ export const deleteTypeCourt = (id)=>{
 //CRUD EVENT
 export const getAllEvent = () => async(dispatch)=>{
   try {
-      const api = await axios.get("https://pf-henry-backend-production.up.railway.app/event/all")
+      const api = await axios.get("http://localhost:3001/event/all")
       dispatch({
           type: actions.GET_ALL_EVENT,
           payload: api.data
@@ -418,7 +427,7 @@ export const getAllEvent = () => async(dispatch)=>{
 export const getEventDetails = (id) => async(dispatch) =>{
 try{
   
-  const find = await axios.get(`https://pf-henry-backend-production.up.railway.app/event/${id}`)
+  const find = await axios.get(`http://localhost:3001/event/${id}`)
   
   dispatch({
     type: actions.GET_EVENT_DETAIL,
@@ -434,7 +443,7 @@ export const createEvent = ({description,icon})=>{
   const typecourt = {description,icon}
   try{
     
-    const create = axios.get("https://pf-henry-backend-production.up.railway.app/event/create",typecourt)
+    const create = axios.get("http://localhost:3001/event/create",typecourt)
     
     return {create, msg:"event created"}
   }
@@ -449,7 +458,7 @@ export const updateEvent = (id,{description,icon})=>{
   const typecourt = {description,icon}
   try{
     
-    const create = axios.get(`https://pf-henry-backend-production.up.railway.app/event/update/${id}`,typecourt)
+    const create = axios.get(`http://localhost:3001/event/update/${id}`,typecourt)
     
     return {create, msg:"event updated"}
   }
@@ -463,7 +472,7 @@ export const deleteEvent = (id)=>{
 
   try{
     
-    const create = axios.post(`https://pf-henry-backend-production.up.railway.app/event/delete/${id}`)
+    const create = axios.post(`http://localhost:3001/event/delete/${id}`)
     
     return {create, msg:"event deleted"}
   }
@@ -603,4 +612,89 @@ export const searchCity = (city, array, setNotfound) => dispatch =>{
       payload: favorites
     })
   }
+
+  //LOGIN
+  export const setCurrentUser = (data) => {
+    return {
+      type: actions.SET_CURRENT_USER,
+      payload: data,
+    };
+  };
   
+  export const logoutUser = () => {
+    return {
+      type: actions.LOGOUT_CURRENT_USER,
+      payload: null,
+    };
+  };
+  
+  export const checkUserSession = () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return {
+        type: actions.LOGOUT_CURRENT_USER,
+        payload: null,
+      };
+    } else {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+  
+      return async (dispatch) => {
+        try {
+          const { data } = await clientAxios("clients/profile", config);
+          return dispatch({
+            type: actions.SET_CURRENT_USER,
+            payload: data,
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  };
+
+
+  // DEVELOPER FUNCTIONS
+export const changeStatusComplex = (value, id, arr) =>{
+  const find = arr.filter(e => e.id === id)
+  const change = {
+    ...find[0],
+    status: value ==="enable"? true : false
+  }
+  try{
+    
+    const update = axios.get(`http://localhost:3001/complejo/update/${id}`,change)
+    
+    return {update, msg:"complex updated"}
+  }
+  catch(error){
+    alert('error - complex not updated')
+    console.log(error)
+  }
+
+
+}
+
+export const changeStatusUser = (value, id, arr) =>{
+  const find = arr.filter(e => e.id === id)
+  const change = {
+    ...find[0],
+    status: value ==="enable"? true : false
+  }
+  try{
+    
+    const update = axios.get(`http://localhost:3001/clients/update/${id}`,change)
+    
+    return {update, msg:"user updated"}
+  }
+  catch(error){
+    alert('error - user not updated')
+    console.log(error)
+  }
+
+
+}
